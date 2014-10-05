@@ -115,6 +115,22 @@ const amqp_bytes_t &BasicMessage::getAmqpBody() const
     return m_impl->m_body;
 }
 
+void *BasicMessage::Body(size_t *len) const
+{
+    return m_impl->m_body.bytes;
+}
+void BasicMessage::Body(void *body, size_t len)
+{
+    if (NULL != m_impl->m_body.bytes)
+    {
+        amqp_bytes_free(m_impl->m_body);
+    }
+    amqp_bytes_t body_bytes;
+    body_bytes.bytes = body;
+    body_bytes.len = len;
+    m_impl->m_body = amqp_bytes_malloc_dup(body_bytes);
+}
+
 std::string BasicMessage::Body() const
 {
     if (m_impl->m_body.bytes == NULL)

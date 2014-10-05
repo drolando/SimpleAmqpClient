@@ -130,6 +130,15 @@ public:
     const amqp_bytes_t_ &getAmqpBody() const;
 
     /**
+      * Gets the message body as a void*
+      */
+    void *Body(size_t *len) const;
+    /**
+      * Sets the message body as a void*
+      */
+    void Body(void *body, size_t len);
+
+    /**
       * Gets the message body as a std::string
       */
     std::string Body() const;
